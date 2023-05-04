@@ -1,5 +1,6 @@
 # Books-Angular
-Book management system - Angular CRUD app using Google Books API, Express, Angular, Node, and MDBootstrap 5.
+Book management system - Angular CRUD app using Google Books API, Express, Angular, Node, and MDBootstrap 5. Deployed version without using MongoDB.
+<a href="https://github.com/TimothyJan/Books-MEAN" target="_blank">Books-MEAN</a> contains the files for version using MongoDB.
 
 Frontend:
 <ul>
