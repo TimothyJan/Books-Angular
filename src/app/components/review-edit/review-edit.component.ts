@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { MongodbApiService } from 'src/app/service/mongodb-api.service';
+import { ReviewsApiService } from 'src/app/service/reviews-api.service';
 
 @Component({
   selector: 'app-review-edit',
@@ -9,7 +9,7 @@ import { MongodbApiService } from 'src/app/service/mongodb-api.service';
   styleUrls: ['./review-edit.component.scss']
 })
 export class ReviewEditComponent implements OnInit{
-  review_id: string | null = null;
+  reviewId: number | null = null;
   googleId: string | null = null;
 
   authors = "";
@@ -24,7 +24,7 @@ export class ReviewEditComponent implements OnInit{
 
   constructor(
     public modalRef: MdbModalRef<ReviewEditComponent>,
-    private _mongodbApiService: MongodbApiService,
+    private _reviewsApiService: ReviewsApiService,
     public fb: FormBuilder,
   ) {}
 
@@ -73,12 +73,14 @@ export class ReviewEditComponent implements OnInit{
   }
 
   getReview() {
-    this._mongodbApiService.getReview(this.review_id).subscribe((data) => {
-      this.reviewForm.setValue({
-        googleId: data['googleId'],
-        rating: data['rating'],
-        review: data['review']
-      });
+    console.log(this.reviewId);
+    let data = this._reviewsApiService.getReview(this.reviewId);
+    console.log(data);
+
+    this.reviewForm.setValue({
+      googleId: data['googleId'],
+      rating: data['rating'],
+      review: data['review']
     });
   }
 
@@ -86,21 +88,21 @@ export class ReviewEditComponent implements OnInit{
     console.log(this.reviewForm.value);
 
     this.submitted = true;
-    if (!this.reviewForm.valid) {
-      console.log("reviewForm failed");
-      return false;
-    } else {
-      console.log("reviewForm success");
-      return this._mongodbApiService.updateReview(this.review_id, this.reviewForm.value).subscribe({
-        complete: () => {
-          this._mongodbApiService.reviewsChanged.next(this.googleId);
-          console.log('Review updated created!')
-        },
-        error: (e) => {
-          console.log(e);
-        },
-      });
-    }
+    // if (!this.reviewForm.valid) {
+    //   console.log("reviewForm failed");
+    //   return false;
+    // } else {
+    //   console.log("reviewForm success");
+    //   return this._reviewsApiService.updateReview(this.reviewId, this.reviewForm.value).subscribe({
+    //     complete: () => {
+    //       this._reviewsApiService.reviewsChanged.next(this.googleId);
+    //       console.log('Review updated created!')
+    //     },
+    //     error: (e) => {
+    //       console.log(e);
+    //     },
+    //   });
+    // }
   }
 
 }

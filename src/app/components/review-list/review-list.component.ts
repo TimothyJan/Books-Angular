@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MongodbApiService } from 'src/app/service/mongodb-api.service';
+import { ReviewsApiService } from 'src/app/service/reviews-api.service';
 
 @Component({
   selector: 'app-review-list',
@@ -10,16 +10,15 @@ export class ReviewListComponent{
   reviews:any = [];
   reviewsChanged: string;
 
-  constructor(private _mongodbApiService:MongodbApiService) {
-    this._mongodbApiService.reviewsChanged.subscribe(value => {
-      this.reviewsChanged = value ;
+  constructor(private _reviewsApiService: ReviewsApiService) {
+    this._reviewsApiService.reviewsChanged.subscribe(value => {
+      this.reviewsChanged = value;
       this.readReviews();
     });
   }
 
-  readReviews(){
-    this._mongodbApiService.getReviews().subscribe((data) => {
-      this.reviews = data;
-    })
+  readReviews() {
+    this.reviews = this._reviewsApiService.getReviews();
+    console.log(this.reviews);
   }
 }
