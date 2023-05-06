@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { MongodbApiService } from 'src/app/service/mongodb-api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReviewsApiService } from 'src/app/service/reviews-api.service';
 
 @Component({
   selector: 'app-review-create',
@@ -21,7 +21,7 @@ export class ReviewCreateComponent implements OnInit{
 
   constructor(
     public modalRef: MdbModalRef<ReviewCreateComponent>,
-    private _mongodbApiService: MongodbApiService,
+    private _reviewsApiService: ReviewsApiService,
     public fb: FormBuilder,
   ) {
   }
@@ -72,23 +72,12 @@ export class ReviewCreateComponent implements OnInit{
   }
 
   onSubmit() {
-    // Set GoogleId
-    console.log(this.reviewForm.value);
-
     if (!this.reviewForm.valid) {
       console.log("reviewForm failed");
       return false;
     } else {
       console.log("reviewForm success");
-      return this._mongodbApiService.createReview(this.reviewForm.value).subscribe({
-        complete: () => {
-          this._mongodbApiService.reviewsChanged.next(this.googleId);
-          console.log('Review successfully created!');
-        },
-        error: (e) => {
-          console.log(e);
-        },
-      });
+      return this._reviewsApiService.createReview(this.reviewForm.value);
     }
   }
 }

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ReviewCreateComponent } from '../../review-create/review-create.component';
+import { ReviewCreateComponent } from '../review-create/review-create.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MongodbApiService } from 'src/app/service/mongodb-api.service';
-import { ReviewEditComponent } from '../../review-edit/review-edit.component';
+import { ReviewEditComponent } from '../review-edit/review-edit.component';
 
 @Component({
   selector: 'app-book-card',
@@ -15,7 +15,7 @@ export class BookCardComponent implements OnInit {
   @Input() googleId: string;
   @Input() rating?: string;
   @Input() review?: string;
-  @Input() review_id?: string;
+  @Input() reviewId?: number;
 
   authors = "";
   description = "";
@@ -40,7 +40,7 @@ export class BookCardComponent implements OnInit {
     );
     const data = await response.json();
     this.authors = data.volumeInfo.authors;
-    this.description = (data.volumeInfo.description);
+    this.description = data.volumeInfo.description;
     this.googleLink = data.volumeInfo.canonicalVolumeLink;
     this.title = data.volumeInfo.title;
 
@@ -73,16 +73,17 @@ export class BookCardComponent implements OnInit {
   }
 
   openReviewEditModal() {
+    console.log(this.reviewId);
     this.modalRef = this.modalService.open(ReviewEditComponent, {
       data: {
         googleId: this.googleId,
-        review_id: this.review_id
+        reviewId: this.reviewId
       }
     });
   }
 
   onDelete() {
-    this._mongodbApiService.deleteReview(this.review_id).subscribe();
-    this._mongodbApiService.reviewsChanged.next(this.googleId);
+    // this._mongodbApiService.deleteReview(this.reviewId);
+    // this._mongodbApiService.reviewsChanged.next(this.googleId);
   }
 }
