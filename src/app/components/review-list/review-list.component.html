@@ -11,9 +11,9 @@
         <div *ngFor="let review of reviews">
           <app-book-card
             [googleId]="review.googleId"
+            [reviewId]="review.reviewId"
             [rating]="review.rating"
             [review]="review.review"
-            [reviewId]="reviewId"
           >
           </app-book-card>
         </div>

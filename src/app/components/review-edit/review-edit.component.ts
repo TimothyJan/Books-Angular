@@ -76,7 +76,6 @@ export class ReviewEditComponent implements OnInit{
     console.log(this.reviewId);
     let data = this._reviewsApiService.getReview(this.reviewId);
     console.log(data);
-
     this.reviewForm.setValue({
       googleId: data['googleId'],
       rating: data['rating'],
@@ -88,21 +87,21 @@ export class ReviewEditComponent implements OnInit{
     console.log(this.reviewForm.value);
 
     this.submitted = true;
-    // if (!this.reviewForm.valid) {
-    //   console.log("reviewForm failed");
-    //   return false;
-    // } else {
-    //   console.log("reviewForm success");
-    //   return this._reviewsApiService.updateReview(this.reviewId, this.reviewForm.value).subscribe({
-    //     complete: () => {
-    //       this._reviewsApiService.reviewsChanged.next(this.googleId);
-    //       console.log('Review updated created!')
-    //     },
-    //     error: (e) => {
-    //       console.log(e);
-    //     },
-    //   });
-    // }
+    if (!this.reviewForm.valid) {
+      console.log("reviewForm failed");
+      return false;
+    } else {
+      console.log("reviewForm success");
+      return this._reviewsApiService.updateReview(this.reviewId, this.reviewForm.value).subscribe({
+        complete: () => {
+          this._reviewsApiService.reviewsChanged.next(this.googleId);
+          console.log('Review updated created!')
+        },
+        error: (e) => {
+          console.log(e);
+        },
+      });
+    }
   }
 
 }
