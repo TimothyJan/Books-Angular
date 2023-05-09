@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ReviewCreateComponent } from '../review-create/review-create.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { MongodbApiService } from 'src/app/service/mongodb-api.service';
 import { ReviewEditComponent } from '../review-edit/review-edit.component';
+import { ReviewsApiService } from 'src/app/service/reviews-api.service';
 
 @Component({
   selector: 'app-book-card',
@@ -13,9 +13,9 @@ export class BookCardComponent implements OnInit {
   modalRef: MdbModalRef<ReviewCreateComponent> | null = null;
 
   @Input() googleId: string;
+  @Input() reviewId?: number;
   @Input() rating?: string;
   @Input() review?: string;
-  @Input() reviewId?: number;
 
   authors = "";
   description = "";
@@ -25,7 +25,7 @@ export class BookCardComponent implements OnInit {
 
   constructor(
     private modalService: MdbModalService,
-    private _mongodbApiService:MongodbApiService
+    private _reviewsApiService: ReviewsApiService
     ) {}
 
   ngOnInit() {
@@ -73,7 +73,6 @@ export class BookCardComponent implements OnInit {
   }
 
   openReviewEditModal() {
-    console.log(this.reviewId);
     this.modalRef = this.modalService.open(ReviewEditComponent, {
       data: {
         googleId: this.googleId,

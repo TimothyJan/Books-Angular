@@ -13,31 +13,29 @@ export class ReviewsApiService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) {}
 
+  // Using index as id for db
   allReviews: Review[] = [];
 
   // Create Review
   createReview(data:any): void {
-    let reviewID = this.allReviews.length;
+    let reviewID = this.allReviews.length+1;
     let review = data;
     review.reviewId = reviewID
     this.allReviews.push(review);
-    console.log(this.allReviews);
-
   }
 
   // Get all Reviews
   getReviews() {
-    console.log(this.allReviews);
     return this.allReviews;
   }
 
   // Get Review
   getReview(id:number): any {
-    return this.allReviews[id];
+    return this.allReviews[id-1];
   }
 
   // Update Review
-  updateReview(id:string, data:any): Observable<any> {
+  updateReview(id:number, data:any): Observable<any> {
     let url = `${this.baseUri}/update/${id}`;
     return this.http
       .put(url, data, { headers: this.headers })
