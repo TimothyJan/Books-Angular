@@ -30,15 +30,16 @@ export class ReviewEditComponent implements OnInit{
 
   ngOnInit(): void {
     this.getBookDetails();
-    this.getReview();
     this.editForm();
+    this.getReview();
   }
 
   editForm() {
     this.reviewForm = this.fb.group({
       googleId: ['', [Validators.required]],
       rating: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-      review: ['', [Validators.required]]
+      review: ['', [Validators.required]],
+      reviewId: [0, [Validators.required]]
     });
   }
 
@@ -73,34 +74,24 @@ export class ReviewEditComponent implements OnInit{
   }
 
   getReview() {
-    console.log(this.reviewId);
     let data = this._reviewsApiService.getReview(this.reviewId);
-    console.log(data);
     this.reviewForm.setValue({
       googleId: data['googleId'],
       rating: data['rating'],
-      review: data['review']
+      review: data['review'],
+      reviewId: this.reviewId
     });
   }
 
   onSubmit() {
-    console.log(this.reviewForm.value);
-
+    // console.log(this.reviewForm.value);
     this.submitted = true;
     if (!this.reviewForm.valid) {
       console.log("reviewForm failed");
       return false;
     } else {
       console.log("reviewForm success");
-      return this._reviewsApiService.updateReview(this.reviewId, this.reviewForm.value).subscribe({
-        complete: () => {
-          this._reviewsApiService.reviewsChanged.next(this.googleId);
-          console.log('Review updated created!')
-        },
-        error: (e) => {
-          console.log(e);
-        },
-      });
+      return this._reviewsApiService.updateReview(this.reviewId, this.reviewForm.value);
     }
   }
 

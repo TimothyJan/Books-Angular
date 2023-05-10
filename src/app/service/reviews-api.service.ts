@@ -35,16 +35,13 @@ export class ReviewsApiService {
   }
 
   // Update Review
-  updateReview(id:number, data:any): Observable<any> {
-    let url = `${this.baseUri}/update/${id}`;
-    return this.http
-      .put(url, data, { headers: this.headers })
-      .pipe(catchError(this.errorMgmt));
+  updateReview(id:number, data:any){
+    this.allReviews[id-1] = data;
   }
 
   // Delete Review
   deleteReview(id:number): void {
-    delete this.allReviews[id];
+    delete this.allReviews[id-1];
   }
 
   // Error handling
