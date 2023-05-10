@@ -12,7 +12,7 @@ export class DescriptionPipe implements PipeTransform {
       .replaceAll('<i>', '').replaceAll('</i>', '')
       .replaceAll('<p>', '').replaceAll('</p>', '')
       .trim();
-    return newVal
+    return newVal;
   }
 
 }
