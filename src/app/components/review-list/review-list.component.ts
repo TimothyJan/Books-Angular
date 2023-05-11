@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { Review } from 'src/app/model/review';
 import { ReviewsApiService } from 'src/app/service/reviews-api.service';
 
@@ -16,6 +16,10 @@ export class ReviewListComponent{
       this.reviewsChanged = value;
       this.readReviews();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
   readReviews(): void {
