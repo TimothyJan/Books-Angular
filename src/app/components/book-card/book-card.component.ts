@@ -82,7 +82,7 @@ export class BookCardComponent implements OnInit {
   }
 
   onDelete() {
-    // this._mongodbApiService.deleteReview(this.reviewId);
-    // this._mongodbApiService.reviewsChanged.next(this.googleId);
+    this._reviewsApiService.deleteReview(this.reviewId);
+    // this._reviewsApiService.reviewsChanged.next(this.googleId);
   }
 }

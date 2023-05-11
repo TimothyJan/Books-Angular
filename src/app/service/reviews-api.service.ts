@@ -41,7 +41,8 @@ export class ReviewsApiService {
 
   // Delete Review
   deleteReview(id:number): void {
-    delete this.allReviews[id-1];
+    this.allReviews.splice(id-1, 1);
+    console.log(this.allReviews);
   }
 
   // Error handling
